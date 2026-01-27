@@ -5,14 +5,16 @@ import com.twins.clone.post.dto.PostDetailDto;
 import com.twins.clone.post.dto.PostListDto;
 import com.twins.clone.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/post")
@@ -30,7 +32,7 @@ public class PostController {
     public ResponseEntity<?> save(@RequestBody PostCreateDto pc_dto, @AuthenticationPrincipal UserDetails userDetails) {
 
         String email = userDetails.getUsername(); //jwt의 sub값(이메일)
-        postService.save(pc_dto,email);
+        postService.save(pc_dto, email);
         return ResponseEntity.status(HttpStatus.CREATED).body("성공적으로 작성됨");
     }
 
@@ -47,10 +49,10 @@ public class PostController {
         return postService.findById(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+
     @GetMapping("/posts")
-    public List<PostListDto> findAll() {
-        return postService.findAll();
+    public Page<PostListDto> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return postService.pageFindAll(pageable);
     }
 
 

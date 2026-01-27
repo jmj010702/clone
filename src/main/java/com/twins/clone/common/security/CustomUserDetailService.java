@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service //UserDetailsService : spring이 제공하는 인터페이스 security가 사용자 정보 어떻게 가져와 할때 쓰는 약속된 인터페이스
+@Service
+//UserDetailsService : spring이 제공하는 인터페이스 security가 사용자 정보 어떻게 가져와 할때 쓰는 약속된 인터페이스
 public class CustomUserDetailService implements UserDetailsService {
     //    DB에서 Author찾기 위해 Repository 주입받음
     private final AuthorRepository authorRepository;

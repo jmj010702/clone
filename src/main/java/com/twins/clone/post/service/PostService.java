@@ -11,10 +11,10 @@ import com.twins.clone.post.entity.Post;
 import com.twins.clone.post.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PostService {
@@ -43,8 +43,19 @@ public class PostService {
         post.updateDel(DelYN.Y);
     }
 
-    public List<PostListDto> findAll() {
-        return postRepository.findAllByDelYN(DelYN.N).stream().map(PostListDto::fromEntity).toList();
+//    public List<PostListDto> findAll() {
+//        List<Post> post = postRepository.findAllFetchInnerJoin();
+//        List<PostListDto> postListDtos = new ArrayList<>();
+//        for (Post p : post) {
+//            PostListDto postListDto = PostListDto.fromEntity(p);
+//            postListDtos.add(postListDto);
+//        }
+//        return postListDtos;
+//    }
+
+    public Page<PostListDto> pageFindAll(Pageable pageable) {
+        Page<Post> post = postRepository.findAllByDelYN(pageable, DelYN.N);
+        return post.map(PostListDto::fromEntity);
     }
 
     public PostDetailDto findById(Long id) {
