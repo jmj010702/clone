@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,6 +18,12 @@ public class PostCreateDto {
     private String title;
     private String contents;
     private String category;
+
+    @Builder.Default
+    private String appointment = "N";
+    @Builder.Default
+    private LocalDateTime appoimentTime = LocalDateTime.now();
+
 
     public Post toEntity(Author author) {
         return Post.builder()

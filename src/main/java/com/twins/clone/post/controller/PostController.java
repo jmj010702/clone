@@ -3,6 +3,7 @@ package com.twins.clone.post.controller;
 import com.twins.clone.post.dto.PostCreateDto;
 import com.twins.clone.post.dto.PostDetailDto;
 import com.twins.clone.post.dto.PostListDto;
+import com.twins.clone.post.dto.PostSearchDto;
 import com.twins.clone.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,10 +51,14 @@ public class PostController {
     }
 
 
+//    @GetMapping("/posts")
+//    public Page<PostListDto> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        return postService.pageFindAll(pageable);
+//    }
+
+
     @GetMapping("/posts")
-    public Page<PostListDto> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return postService.pageFindAll(pageable);
+    public Page<PostListDto> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, PostSearchDto ps_dto) {
+        return postService.pageFindAll(pageable,ps_dto);
     }
-
-
 }

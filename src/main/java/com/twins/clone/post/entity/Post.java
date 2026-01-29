@@ -5,6 +5,8 @@ import com.twins.clone.common.entity.DelYN;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -21,6 +23,11 @@ public class Post {
     private String contents;
     private String category;
 
+    @Builder.Default
+    private String appointment = "N";
+    @Builder.Default
+    private LocalDateTime appoimentTime = LocalDateTime.now();
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT), nullable = false)
@@ -30,9 +37,13 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private DelYN delYN = DelYN.N;
 
-    public void updateDel(DelYN delYN){
+    public void updateDel(DelYN delYN) {
         this.delYN = delYN;
     }
 
+    public void updateAppoiment(String appointment) {
+        this.appointment = appointment
+        ;
+    }
 
 }
